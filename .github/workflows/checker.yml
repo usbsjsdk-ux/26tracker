@@ -2,7 +2,7 @@ name: S26 Price Checker
 
 on:
   schedule:
-    - cron: '0 7 * * *' # UTC 기준 07:00 (한국 시간 매일 오후 4:00)
+    - cron: '0 7 * * *'
   workflow_dispatch:
 
 jobs:
