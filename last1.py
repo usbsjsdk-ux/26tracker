@@ -1,6 +1,7 @@
 import time
 import re
 import requests
+import subprocess
 import undetected_chromedriver as uc
 
 DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1538142964058947596/wCemqcX7ToLAnlMH2gaSOhnQ_Ibi1XAqyG92WAvhWv8xYjcqnk8M2CaZw-26M7pCJZNU'
@@ -12,6 +13,14 @@ def send_discord_msg(msg):
     except Exception as e:
         print("디스코드 전송 실패:", e)
 
+def get_chrome_version():
+    try:
+        # 서버(리눅스) 환경에 설치된 크롬 메이저 버전 자동 추출
+        version_str = subprocess.check_output(['google-chrome', '--version']).decode('utf-8')
+        return int(version_str.strip().split()[2].split('.')[0])
+    except:
+        return None
+
 def check_samsung_price():
     print("삼성닷컴 S26 Ultra (256GB) 가격 확인 중...")
     
@@ -21,9 +30,18 @@ def check_samsung_price():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     
+    v_main = get_chrome_version()
+    if v_main:
+        print(f"감지된 크롬 버전: {v_main}")
+    
     driver = None
     try:
-        driver = uc.Chrome(options=options)
+        # 감지된 크롬 버전에 맞춰서 드라이버 강제 실행
+        if v_main:
+            driver = uc.Chrome(options=options, version_main=v_main)
+        else:
+            driver = uc.Chrome(options=options)
+            
         driver.get(BUY_PAGE_URL)
         time.sleep(7)
         
