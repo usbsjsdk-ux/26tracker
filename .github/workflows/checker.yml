@@ -2,8 +2,8 @@ name: S26 Price Checker
 
 on:
   schedule:
-    - cron: '0 1 * * *' # 한국 시간 기준 매일 오전 10시 실행
-  workflow_dispatch: # 수동 실행 버튼 생성
+    - cron: '0 7 * * *' # UTC 기준 07:00 (한국 시간 매일 오후 4:00)
+  workflow_dispatch:
 
 jobs:
   build:
