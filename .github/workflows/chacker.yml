@@ -2,7 +2,7 @@ name: S26 Price Checker
 
 on:
   schedule:
-    - cron: '10 7 * * *'
+    - cron: '20 7 * * *'
   workflow_dispatch:
 
 jobs:
